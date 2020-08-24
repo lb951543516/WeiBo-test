@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 align="center">发布微博</h1>
+<hr>
+
+<div align="center" style="font-size: 20px">
+
+    <form action="/blog/write" method="POST" enctype="multipart/form-data">
+        <div style="margin-top: 100px">
+            标题：
+            <input type="text" name="title" placeholder="填写标题" style="height: 25px;width: 500px">
+        </div>
+
+        <div style="font-size: 20px;float: left;padding-left: 114px;margin-right: -103px">
+            内容：
+        </div>
+        <div style="padding-top: 10px">
+            <textarea name="content" cols="72" rows="10" placeholder="填写内容"></textarea>
+        </div>
+
+
+        <div style="padding-top: 40px">
+            <input type="submit" value="发布" onclick="foo()" style="width: 100px;font-size: 20px;margin-right: 30px">
+
+            <a href="/blog/content">
+                <input type="button" value="返回" style="width: 100px;font-size: 20px">
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    function foo(){
+        alert('发布成功')
+    }
+</script>
+{% endblock %}
+
+
+
+{% block sidebar %}
+<h1 align="center">当前用户</h1>
+<hr>
+
+<ul style="font-size: 20px;padding-bottom: 50px;list-style: none">
+    <li>帐号：{{user_info.username}}</li>
+
+    {% if user_info.gender=='male' %}
+    <li>性别：男</li>
+    {% else %}
+    <li>性别：女</li>
+    {% endif %}
+
+    <li style="color: black;padding-top: 20px"><a href="/user/logout">退出</a></li>
+</ul>
+{% endblock %}

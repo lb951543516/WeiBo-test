@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>微博基础页面</title>
+    <style>
+        body{
+            width: 1000px;
+            padding: 0;
+            margin: auto;
+        }
+        .top{
+            background-color: grey;
+            font-size: 20px;
+            height: 100px;
+        }
+        .content{
+            width: 800px;
+            float: left;
+            background-color: #3bb4f2;
+            height: 600px;
+        }
+        .sidebar{
+            width: 200px;
+            height: 600px;
+            background-color: #00B83F;
+            float: left;
+        }
+        .down{
+            height: 100px;
+            clear: both;
+            background-color: grey;
+        }
+    </style>
+</head>
+<body>
+<!--    导航栏-->
+    <div class="top"></div>
+
+<!--    内容显示-->
+    <div class="center">
+        <!--    主内容-->
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+        <!--    侧边-->
+        <div class="sidebar">
+            {% block sidebar %}{% endblock %}
+        </div>
+    </div>
+
+<!--    底栏-->
+    <div class="down"></div>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+{%extends 'base.html' %}
+
+{% block content %}
+<h1 align="center">微博内容</h1>
+<hr>
+
+<div style="font-size: 20px">
+    <div style="padding-bottom: 10px">
+        <strong>标题：</strong>{{blog.title}}
+    </div>
+
+    <div style="padding-bottom: 10px">
+        <strong>内容：</strong>{{blog.content}}
+    </div>
+
+    <div style="padding-bottom: 50px">
+        <strong>日期：</strong>{{blog.create_time}}
+    </div>
+
+    <a href="/blog/delete?id={{bid}}" style="padding-right: 20px">删除微博</a>
+    <a href="/blog/content">返回</a>
+</div>
+
+{% endblock %}
+
+
+{% block sidebar %}
+<h1 align="center">当前用户</h1>
+<hr>
+
+<ul style="font-size: 20px;padding-bottom: 50px;list-style: none">
+    <li>帐号：{{user_info.username}}</li>
+
+    {% if user_info.gender=='male' %}
+    <li>性别：男</li>
+    {% else %}
+    <li>性别：女</li>
+    {% endif %}
+
+    <li style="color: black;padding-top: 20px"><a href="/user/logout">退出</a></li>
+</ul>
+{% endblock %}

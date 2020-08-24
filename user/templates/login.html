@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 align="center">微博登录</h1>
+<hr>
+
+<div align="center" style="font-size: 20px">
+
+    <form action="/" method="POST" enctype="multipart/form-data">
+        <div style="margin-top: 100px">
+            帐号： <input type="text" name="username" placeholder="用户名" style="height: 25px">
+        </div>
+
+        <div style="padding-top: 10px">
+            密码： <input type="password" name="password" placeholder="密码" style="height: 25px">
+        </div>
+
+
+        <div style="padding-top: 40px">
+            <input type="submit" value="登录" style="width: 100px;font-size: 20px;margin-right: 30px">
+
+            <a href="/user/register">
+                <input type="button" value="注册" style="width: 100px;font-size: 20px">
+            </a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

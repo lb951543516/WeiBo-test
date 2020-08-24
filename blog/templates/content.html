@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 align="center">个人微博信息</h1>
+<hr>
+
+<ol style="font-size: 20px">
+    {% for item in blog %}
+    <li><a href="/blog/read?id={{item.id}}">{{item.title}}</a></li>
+    {% endfor %}
+</ol>
+
+<ul style="font-size: 20px;list-style: none;color: black;padding-top: 50px">
+    <li>
+        <a href="/blog/write" style="padding-right: 20px">发表微博</a>
+        <a href="/blog/">返回</a>
+    </li>
+</ul>
+{% endblock %}
+
+
+{% block sidebar %}
+<h1 align="center">当前用户</h1>
+<hr>
+
+<ul style="font-size: 20px;padding-bottom: 50px;list-style: none">
+    <li>帐号：{{user_info.username}}</li>
+
+    {% if user_info.gender=='male' %}
+    <li>性别：男</li>
+    {% else %}
+    <li>性别：女</li>
+    {% endif %}
+
+    <li style="color: black;padding-top: 20px"><a href="/user/logout">退出</a></li>
+</ul>
+{% endblock %}
