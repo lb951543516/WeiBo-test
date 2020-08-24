@@ -25,10 +25,10 @@
 <ul style="font-size: 20px;padding-bottom: 50px;list-style: none">
     <li>帐号：{{user_info.username}}</li>
 
-    {% if user_info.gender=='male' %}
-    <li>性别：男</li>
-    {% else %}
+    {% if user_info.gender=='female' %}
     <li>性别：女</li>
+    {% else %}
+    <li>性别：男</li>
     {% endif %}
 
     <li style="color: black;padding-top: 20px"><a href="/user/logout">退出</a></li>
