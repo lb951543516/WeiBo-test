@@ -25,6 +25,10 @@ def register():
         tel = request.form.get('tel')
         birthday = request.form.get('birthday')
         gender = request.form.get('gender')
+        if gender == '男':
+            gender = 'male'
+        else:
+            gender = 'female'
 
         try:
             Users.query.filter_by(username=username).one()
@@ -75,7 +79,7 @@ def update():
         new_tel = request.form.get('tel')
 
         if check_password(old_password, user_info.password) is False:
-            return render_template('update.html',error=1,user_info=user_info)
+            return render_template('update.html', error=1, user_info=user_info)
         else:
             user_info.password = make_password(new_password)
             user_info.tel = new_tel
@@ -86,9 +90,9 @@ def update():
 
 @user_bp.route('/user/info')
 def info():
-    uid=session.get('uid')
-    user_info=Users.query.get(uid)
-    return render_template('info.html',user_info=user_info)
+    uid = session.get('uid')
+    user_info = Users.query.get(uid)
+    return render_template('info.html', user_info=user_info)
 
 
 @user_bp.route('/user/logout')

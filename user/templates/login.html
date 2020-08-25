@@ -3,6 +3,15 @@
 {% block content %}
 <h1 align="center">微博登录</h1>
 <hr>
+
+{% if error == 1 %}
+<div class="alert alert-danger" role="alert" style="text-align: center">用户不存在！</div>
+{% endif %}
+
+{% if error == 2 %}
+<div class="alert alert-danger" role="alert" style="text-align: center">密码错误！</div>
+{% endif %}
+
 <div style="margin-top: 50px"></div>
 
 <form class="form-horizontal" action="/" method="POST" enctype="multipart/form-data">
@@ -36,17 +45,5 @@
         </div>
     </div>
 </form>
-
-{% if error == 1 %}
-<script>
-    alert('用户不存在！')
-</script>
-{% endif %}
-
-{% if error == 2 %}
-<script>
-    alert('密码错误！')
-</script>
-{% endif %}
 
 {% endblock %}

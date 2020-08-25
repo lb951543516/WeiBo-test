@@ -4,6 +4,14 @@
 <h1 align="center">欢迎注册</h1>
 <hr>
 
+{% if error == 1 %}
+    <div class="alert alert-danger" role="alert" style="text-align: center">两次密码不同！</div>
+{% endif %}
+
+{% if error == 2 %}
+    <div class="alert alert-danger" role="alert" style="text-align: center">用户名已注册！</div>
+{% endif %}
+
 <div style="margin-top: 50px"></div>
 
 <form class="form-horizontal" action="/user/register" method="POST" enctype="multipart/form-data">
@@ -20,6 +28,14 @@
         <label for="inputPassword3" class="col-sm-2  col-md-offset-2 control-label">输入密码</label>
         <div class="col-sm-4">
             <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="Password">
+        </div>
+    </div>
+
+    <!--    确认密码-->
+    <div class="form-group">
+        <label for="inputPassword2" class="col-sm-2  col-md-offset-2 control-label">确认密码</label>
+        <div class="col-sm-4">
+            <input type="password" name="password2" class="form-control" id="inputPassword2" placeholder="Confirm Password">
         </div>
     </div>
 
@@ -67,18 +83,5 @@
         </div>
     </div>
 </form>
-
-
-{% if error == 1 %}
-<script>
-    alert('两次密码不同！')
-</script>
-{% endif %}
-
-{% if error == 2 %}
-<script>
-    alert('用户名已注册！')
-</script>
-{% endif %}
 
 {% endblock %}
