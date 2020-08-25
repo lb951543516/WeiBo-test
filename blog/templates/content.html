@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1 align="center">个人微博信息</h1>
+<h1 align="center">个人微博</h1>
 <hr>
 
 <ol style="font-size: 20px">
@@ -8,13 +8,6 @@
     <li><a href="/blog/read?id={{item.id}}">{{item.title}}</a></li>
     {% endfor %}
 </ol>
-
-<ul style="font-size: 20px;list-style: none;color: black;padding-top: 50px">
-    <li>
-        <a href="/blog/write" style="padding-right: 20px">发表微博</a>
-        <a href="/blog/">返回</a>
-    </li>
-</ul>
 {% endblock %}
 
 
@@ -22,15 +15,23 @@
 <h1 align="center">当前用户</h1>
 <hr>
 
-<ul style="font-size: 20px;padding-bottom: 50px;list-style: none">
-    <li>帐号：{{user_info.username}}</li>
+<ul style="text-align: center;font-size: 22px;padding-bottom: 50px;list-style: none">
+    <li>
+        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+        <strong>{{user_info.username}}</strong>
+        <a href="/user/logout" style="padding-left: 10px">
+            <button type="button" class="btn btn-info">退出</button>
+        </a>
+    </li>
 
-    {% if user_info.gender=='female' %}
-    <li>性别：女</li>
-    {% else %}
-    <li>性别：男</li>
-    {% endif %}
+    <li style="padding-top: 20px">
+        <a href="/blog/write" style="padding-right: 20px">
+            <button type="button" class="btn btn-info">发表微博</button>
+        </a>
+        <a href="/blog/">
+            <button type="button" class="btn btn-info">返回主页</button>
+        </a>
+    </li>
 
-    <li style="color: black;padding-top: 20px"><a href="/user/logout">退出</a></li>
 </ul>
 {% endblock %}

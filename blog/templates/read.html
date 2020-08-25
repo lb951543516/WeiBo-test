@@ -17,8 +17,6 @@
         <strong>日期：</strong>{{blog.create_time}}
     </div>
 
-    <a href="/blog/delete?id={{bid}}" style="padding-right: 20px">删除微博</a>
-    <a href="/blog/content">返回</a>
 </div>
 
 {% endblock %}
@@ -28,15 +26,22 @@
 <h1 align="center">当前用户</h1>
 <hr>
 
-<ul style="font-size: 20px;padding-bottom: 50px;list-style: none">
-    <li>帐号：{{user_info.username}}</li>
+<ul style="text-align: center;font-size: 22px;padding-bottom: 50px;list-style: none">
+    <li>
+        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+        <strong>{{user_info.username}}</strong>
+        <a href="/user/logout" style="padding-left: 10px">
+            <button type="button" class="btn btn-info">退出</button>
+        </a>
+    </li>
 
-    {% if user_info.gender=='male' %}
-    <li>性别：男</li>
-    {% else %}
-    <li>性别：女</li>
-    {% endif %}
-
-    <li style="color: black;padding-top: 20px"><a href="/user/logout">退出</a></li>
+    <li style="padding-top: 20px">
+        <a href="/blog/delete?id={{bid}}" style="padding-right: 10px">
+            <button type="button" class="btn btn-info">删除微博</button>
+        </a>
+        <a href="/blog/content">
+            <button type="button" class="btn btn-info">返回</button>
+        </a>
+    </li>
 </ul>
 {% endblock %}

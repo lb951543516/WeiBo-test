@@ -84,6 +84,13 @@ def update():
         return redirect('/')
 
 
+@user_bp.route('/user/info')
+def info():
+    uid=session.get('uid')
+    user_info=Users.query.get(uid)
+    return render_template('info.html',user_info=user_info)
+
+
 @user_bp.route('/user/logout')
 def logout():
     # 删除session数据

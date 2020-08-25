@@ -4,18 +4,22 @@
 <h1 align="center">当前用户</h1>
 <hr>
 
-<ul style="font-size: 20px;padding-bottom: 50px;list-style: none">
-    <li>帐号：{{user_info.username}}</li>
+<ul style="text-align: center;font-size: 22px;padding-bottom: 50px;list-style: none">
+    <li>
+        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+        <strong>{{user_info.username}}</strong>
+        <a href="/user/logout" style="padding-left: 10px">
+            <button type="button" class="btn btn-info">退出</button>
+        </a>
+    </li>
 
-    {% if user_info.gender=='male' %}
-    <li>性别：男</li>
-    {% else %}
-    <li>性别：女</li>
-    {% endif %}
-
-    <li style="color: black;padding-top: 20px">
-        <a href="/user/update" style="padding-right: 10px">修改信息</a>
-        <a href="/user/logout">退出</a>
+    <li style="padding-top: 20px">
+        <a href="/user/info" style="padding-right: 10px">
+            <button type="button" class="btn btn-info">个人信息</button>
+        </a>
+        <a href="/blog/content">
+            <button type="button" class="btn btn-info">个人微博</button>
+        </a>
     </li>
 
 </ul>
@@ -27,15 +31,34 @@
 <hr>
 
 <ol style="font-size: 20px">
-    {% for item in blog %}
+    {% if num <=1 %}
+    {% for item in blog[:20] %}
     <li><a href="/blog/read?id={{item.id}}">{{item.title}}</a></li>
     {% endfor %}
+    {% endif %}
 </ol>
 
-<ul style="font-size: 20px;list-style: none;color: black">
-    <li>
-        <a href="/blog/content" style="padding-right: 20px;float: bottom">编辑个人微博</a>
-    </li>
-</ul>
+<div align="center" style="margin-bottom: 30px">
+<nav aria-label="Page navigation" class="navbar-sta">
+    <ul class="pagination">
+        <li>
+            <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% for %}
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li>
+            <a href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+</div>
 
 {% endblock %}

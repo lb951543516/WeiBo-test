@@ -1,5 +1,6 @@
 from flask import Blueprint, request, redirect, session
 from flask import render_template
+import math
 
 from blog.models import Blogs
 from user.models import Users
@@ -18,7 +19,8 @@ def home():
     user_info = Users.query.get(uid)
 
     blog = Blogs.query.order_by(Blogs.create_time.desc()).all()
-    return render_template('home.html', user_info=user_info, blog=blog)
+    num=math.ceil(len(blog)/20)
+    return render_template('home.html', user_info=user_info, blog=blog,num=num)
 
 
 @blog_bp.route('/content')
