@@ -1,7 +1,10 @@
 from flask import Blueprint, request, redirect, session
 from flask import render_template
+
+
 from user.models import Users
 from libs.orm import db
+from libs.utils import make_password, check_password
 
 # 定义 blueprint 对象                    路由前缀
 user_bp = Blueprint('user', __name__)
@@ -19,16 +22,22 @@ def register():
     else:
         username = request.form.get('username')
         password = request.form.get('password')
+        password2 = request.form.get('password2')
         tel = request.form.get('tel')
+        birthday = request.form.get('birthday')
         gender = request.form.get('gender')
 
         try:
-            u1 = Users.query.filter_by(username=username).one()
-            return '用户名已经注册'
+            Users.query.filter_by(username=username).one()
+            return render_template('register.html', error=2)
         except Exception:
-            u1 = Users(username=username, password=password, tel=tel, gender=gender)
-            db.session.add(u1)
-            db.session.commit()
+            if password != password2:
+                return render_template('register.html', error=1)
+            else:
+                u1 = Users(username=username, password=make_password(password),
+                           tel=tel, birthday=birthday, gender=gender)
+                db.session.add(u1)
+                db.session.commit()
 
             return redirect('/')
 
@@ -44,14 +53,14 @@ def login():
         try:
             u1 = Users.query.filter_by(username=username).one()
         except Exception:
-            return '帐号不存在'
+            return render_template('login.html',error=1)
 
-        if password == u1.password:
+        if check_password(password,u1.password):
             session['uid'] = u1.id
             session['username'] = u1.username
             return redirect('/blog/')
         else:
-            return '密码错误'
+            return render_template('login.html',error=2)
 
 
 @user_bp.route('/user/update', methods=("POST", "GET"))

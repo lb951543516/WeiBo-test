@@ -26,4 +26,16 @@
     </form>
 </div>
 
+{% if error == 1 %}
+<script>
+    alert('用户不存在！')
+</script>
+{% endif %}
+
+{% if error == 2 %}
+<script>
+    alert('密码错误！')
+</script>
+{% endif %}
+
 {% endblock %}

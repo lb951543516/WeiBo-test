@@ -9,6 +9,7 @@ from libs.orm import db
 
 # 定义对象
 app = Flask(__name__)
+
 # 配置SQLAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:lb951543516@localhost:3306/weibo'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://lbsql:lb951543516@119.45.201.6:3306/lbbase'
