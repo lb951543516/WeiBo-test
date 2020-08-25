@@ -1,10 +1,9 @@
-from flask import Blueprint, request, redirect, session
-from flask import render_template
-
+from flask import Blueprint, request, redirect, session, render_template
 
 from user.models import Users
 from libs.orm import db
 from libs.utils import make_password, check_password
+from sqlalchemy.orm.exc import NoResultFound
 
 # 定义 blueprint 对象                    路由前缀
 user_bp = Blueprint('user', __name__)
@@ -30,7 +29,7 @@ def register():
         try:
             Users.query.filter_by(username=username).one()
             return render_template('register.html', error=2)
-        except Exception:
+        except NoResultFound:
             if password != password2:
                 return render_template('register.html', error=1)
             else:
@@ -52,19 +51,19 @@ def login():
 
         try:
             u1 = Users.query.filter_by(username=username).one()
-        except Exception:
-            return render_template('login.html',error=1)
+        except NoResultFound:
+            return render_template('login.html', error=1)
 
-        if check_password(password,u1.password):
+        if check_password(password, u1.password) is True:
             session['uid'] = u1.id
             session['username'] = u1.username
             return redirect('/blog/')
         else:
-            return render_template('login.html',error=2)
+            return render_template('login.html', error=2)
 
 
 @user_bp.route('/user/update', methods=("POST", "GET"))
-def uodate():
+def update():
     uid = session.get('uid')
     user_info = Users.query.get(uid)
 
@@ -75,10 +74,10 @@ def uodate():
         new_password = request.form.get('new_password')
         new_tel = request.form.get('tel')
 
-        if user_info.password != old_password:
-            return '原密码错误，修改失败'
+        if check_password(old_password, user_info.password) is False:
+            return render_template('update.html',error=1,user_info=user_info)
         else:
-            user_info.password = new_password
+            user_info.password = make_password(new_password)
             user_info.tel = new_tel
             db.session.commit()
 

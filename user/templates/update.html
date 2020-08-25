@@ -42,9 +42,16 @@
         </div>
 
         <div style="padding-top: 40px">
-            <input type="submit" value="修改" onclick="foo()" style="width: 100px;font-size: 20px;margin-right: 30px">
+            <input type="submit" value="修改" style="width: 100px;font-size: 20px;margin-right: 30px">
+            <a href="/blog"><input type="button" value="返回" style="width: 100px;font-size: 20px"></a>
         </div>
     </form>
 </div>
+
+{% if error==1 %}
+<script>
+    alert('原密码错误，修改失败')
+</script>
+{% endif %}
 
 {% endblock %}
