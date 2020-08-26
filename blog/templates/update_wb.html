@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 align="center">修改微博</h1>
+<hr>
+
+{% if error == 1 %}
+<div class="alert alert-danger" role="alert" style="text-align: center">内容不能为空！</div>
+{% endif %}
+
+<form class="form-horizontal" action="/blog/update_wb" method="POST" enctype="multipart/form-data">
+    <!--    内容-->
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2  col-md-offset-2 control-label">内容</label>
+        <div class="col-sm-4">
+            <textarea name="content" class="form-control" id="inputPassword3" placeholder="{{blog.content}}" cols="70"
+                      rows="10"></textarea>
+        </div>
+    </div>
+
+    <input type="hidden" name="bid" value="{{bid}}">
+
+    <div class="form-group">
+        <div class="col-sm-8"></div>
+    </div>
+
+    <!--    按钮-->
+    <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-8">
+            <button type="submit" class="btn btn-success"
+                    style="margin-left: 40px;margin-right: 40px">修改
+            </button>
+            <a href="/blog/content">
+                <button type="button" class="btn btn-success">返回</button>
+            </a>
+        </div>
+    </div>
+</form>
+
+
+{% endblock %}
+
