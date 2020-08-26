@@ -22,21 +22,39 @@
 <div align="center" style="margin-bottom: 30px">
     <nav aria-label="Page navigation" class="navbar-sta">
         <ul class="pagination">
+
             <li>
-                <a href="#" aria-label="Previous">
+                {% if page>1 %}
+                <a href="/blog/?page={{page-1}}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
+                {%else%}
+                <a href="#" aria-label="Previous" style="color: gray">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                {%endif%}
             </li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
+
+            {% for x in page_range %}
+            {% if x==page %}
+            <li><a href="/blog/?page={{x}}" style="color: gray">{{x}}</a></li>
+            {% else %}
+            <li><a href="/blog/?page={{x}}">{{x}}</a></li>
+            {% endif %}
+            {% endfor %}
+
             <li>
-                <a href="#" aria-label="Next">
+                {% if page < max_pages %}
+                <a href="/blog/?page={{page+1}}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
+                {%else%}
+                <a href="#" aria-label="Next" style="color: gray">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                {%endif%}
             </li>
+
         </ul>
     </nav>
 </div>

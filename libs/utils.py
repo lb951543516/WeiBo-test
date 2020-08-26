@@ -44,7 +44,10 @@ def save_avatar(avatar_file):
     filename = md5(file_bin_data).hexdigest()
 
     # 获取项目文件夹的绝对路径
-    base_dir = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
+    # os.path.abspath(__file__)  utils的绝对路径
+    # os.path.dirname(os.path.abspath(__file__)) libs的绝对路径
+    # os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 项目的绝对路径
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     # 文件绝对路径
     filepath = os.path.join(base_dir, 'static', 'upload', filename)
@@ -60,6 +63,8 @@ def save_avatar(avatar_file):
 
 def login_required(view_func):
     @wraps(view_func)
+    # 函数被装饰器装饰后 会变成装饰器的内部函数
+    # wraps可以防止发生这种情况，让被装饰的函数保持其本身
     def check_session(*args, **kwargs):
         uid = session.get('uid')
         if not uid:

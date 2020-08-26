@@ -12,5 +12,6 @@ class Blogs(db.Model):
     update_time = db.Column(db.DateTime, nullable=False)
 
     @property
+    # 将方法的结果变成类的一个属性
     def author(self):
         return Users.query.get(self.uid)

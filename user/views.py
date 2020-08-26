@@ -34,7 +34,7 @@ def register():
             Users.query.filter_by(username=username).one()
             return render_template('register.html', error=2)
         except NoResultFound:
-            if password != password2:
+            if not password or password != password2:
                 return render_template('register.html', error=1)
             else:
                 u1 = Users(username=username, password=make_password(password),
