@@ -3,15 +3,11 @@
 <h1 align="center">编辑微博</h1>
 <hr>
 
-<form class="form-horizontal" action="/blog/write" method="POST" enctype="multipart/form-data">
-    <!--    标题-->
-    <div class="form-group">
-        <label for="account" class="col-sm-2 col-md-offset-2 control-label">标题</label>
-        <div class="col-sm-4">
-            <input type="text" name="title" class="form-control" id="account" placeholder="填写标题">
-        </div>
-    </div>
+{% if error == 1 %}
+    <div class="alert alert-danger" role="alert" style="text-align: center">内容不能为空！</div>
+{% endif %}
 
+<form class="form-horizontal" action="/blog/write" method="POST" enctype="multipart/form-data">
     <!--    内容-->
     <div class="form-group">
         <label for="inputPassword3" class="col-sm-2  col-md-offset-2 control-label">内容</label>
@@ -29,7 +25,7 @@
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
             <button type="submit" class="btn btn-success"
-                    style="margin-left: 40px;margin-right: 40px" onclick="foo()">发布
+                    style="margin-left: 40px;margin-right: 40px">发布
             </button>
             <a href="/blog/content">
                 <button type="button" class="btn btn-success">返回</button>
@@ -38,25 +34,5 @@
     </div>
 </form>
 
-<script>
-    function foo() {
-        alert('发布成功')
-    }
-</script>
 {% endblock %}
 
-
-{% block sidebar %}
-<h1 align="center">当前用户</h1>
-<hr>
-
-<ul style="text-align: center;font-size: 22px;padding-bottom: 50px;list-style: none">
-    <li>
-        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-        <strong>{{user_info.username}}</strong>
-        <a href="/user/logout" style="padding-left: 10px">
-            <button type="button" class="btn btn-info">退出</button>
-        </a>
-    </li>
-</ul>
-{% endblock %}

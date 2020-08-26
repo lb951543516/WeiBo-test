@@ -1,4 +1,5 @@
 import os
+from functools import wraps
 from hashlib import sha256, md5
 from flask import session,redirect
 
@@ -58,6 +59,7 @@ def save_avatar(avatar_file):
 
 
 def login_required(view_func):
+    @wraps(view_func)
     def check_session(*args, **kwargs):
         uid = session.get('uid')
         if not uid:

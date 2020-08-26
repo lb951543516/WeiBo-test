@@ -1,63 +1,44 @@
 {% extends 'base.html' %}
 
-{% block sidebar %}
-<h1 align="center">当前用户</h1>
-<hr>
-
-<ul style="text-align: center;font-size: 22px;padding-bottom: 50px;list-style: none">
-    <li>
-        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-        <strong>{{user_info.username}}</strong>
-        <a href="/user/logout" style="padding-left: 10px">
-            <button type="button" class="btn btn-info">退出</button>
-        </a>
-    </li>
-
-    <li style="padding-top: 20px">
-        <a href="/user/info" style="padding-right: 10px">
-            <button type="button" class="btn btn-info">个人信息</button>
-        </a>
-        <a href="/blog/content">
-            <button type="button" class="btn btn-info">个人微博</button>
-        </a>
-    </li>
-
-</ul>
-{% endblock %}
-
-
 {% block content %}
 <h1 align="center">微博首页</h1>
 <hr>
 
-<ol style="font-size: 20px">
-    {% if num <=1 %}
-    {% for item in blog[:20] %}
-    <li><a href="/blog/read?id={{item.id}}">{{item.title}}</a></li>
-    {% endfor %}
-    {% endif %}
-</ol>
+
+{% for item in blog %}
+<div class="alert alert-info" role="alert" style="text-align: left">
+    <span style="font-size: 22px;color: black">{{ item.author.username }}</span>
+    &nbsp&nbsp&nbsp&nbsp
+    <span style="color: black">{{ item.update_time }}</span>
+    <hr style="margin-bottom: 8px;margin-top: 8px">
+    <!--实现换行-->
+    <a href="/blog/read?id={{item.id}}">
+        <span style="font-size: 20px;color: black">{{ item.content | replace('\n', '<br>') | safe }} </span>
+    </a>
+</div>
+{% endfor %}
+
 
 <div align="center" style="margin-bottom: 30px">
-<nav aria-label="Page navigation" class="navbar-sta">
-    <ul class="pagination">
-        <li>
-            <a href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li>
-            <a href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+    <nav aria-label="Page navigation" class="navbar-sta">
+        <ul class="pagination">
+            <li>
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li>
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 {% endblock %}

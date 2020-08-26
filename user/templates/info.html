@@ -5,26 +5,27 @@
 <hr>
 
 <ul style="font-size: 22px;list-style: none;margin: auto">
-    <li><img src="{{user_info.avatar}}" class="img-circle" width="50px"></li>
-    <li><strong>用户名:</strong>{{user_info.username}}</li>
-    <li><strong>手机号:</strong>{{user_info.tel}}</li>
-    <li><strong>出生日:</strong>{{user_info.birthday}}</li>
+    <li><img src="{{user_info.avatar}}" class="img-circle" width="100px"></li>
+    <ul style="font-size: 22px;list-style: none;margin-top: 10px;margin-left: 60px">
+        <li><strong>用户名:</strong>{{user_info.username}}</li>
+        <li><strong>手机号:</strong>{{user_info.tel}}</li>
+        <li><strong>出生日:</strong>{{user_info.birthday}}</li>
 
-    {% if user_info.gender=='male'%}
-    <li><strong>性&nbsp&nbsp&nbsp&nbsp别:</strong>男</li>
-    {% else %}
-    <li><strong>性&nbsp&nbsp&nbsp&nbsp别:</strong>女</li>
-    {% endif %}
+        {% if user_info.gender=='male'%}
+        <li><strong>性&nbsp&nbsp&nbsp&nbsp别:</strong>男</li>
+        {% else %}
+        <li><strong>性&nbsp&nbsp&nbsp&nbsp别:</strong>女</li>
+        {% endif %}
 
-    <li style="padding-top: 50px">
-        <a href="/user/update" style="padding-right: 20px">
-            <button type="button" class="btn btn-info">修改个人信息</button>
-        </a>
-        <a href="/blog/">
-            <button type="button" class="btn btn-info">返回</button>
-        </a>
-    </li>
-
+        <li style="padding-top: 50px">
+            <a href="/user/update" style="padding-right: 20px">
+                <button type="button" class="btn btn-info">修改个人信息</button>
+            </a>
+            <a href="/blog/">
+                <button type="button" class="btn btn-info">返回</button>
+            </a>
+        </li>
+    </ul>
 </ul>
 
 {% endblock %}

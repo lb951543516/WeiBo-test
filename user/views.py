@@ -3,6 +3,7 @@ import datetime
 
 from user.models import Users
 from libs.orm import db
+
 from libs.utils import make_password, check_password, save_avatar, login_required
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -45,10 +46,15 @@ def register():
                 db.session.add(u1)
                 db.session.commit()
 
-            return redirect('/')
+            return redirect('/user/login')
 
 
-@user_bp.route('/', methods=("POST", "GET"))
+@user_bp.route('/')
+def welcome():
+    return render_template('welcome.html')
+
+
+@user_bp.route('/user/login', methods=("POST", "GET"))
 def login():
     if request.method == "GET":
         return render_template('login.html')
@@ -87,7 +93,7 @@ def update():
             user_info.password = make_password(new_password)
             user_info.tel = new_tel
             db.session.commit()
-
+            session.clear()
         return redirect('/')
 
 

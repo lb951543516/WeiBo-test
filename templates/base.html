@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>微博基础页面</title>
     <style>
-        #id1{
+        #id1 {
             margin-top: 10px;
         }
     </style>
@@ -32,9 +32,15 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
+                {% if 'uid' in session %}
                 <li>
-                    <a href="#">首页 <span class="sr-only">(current)</span></a>
+                    <a href="/blog">首页 <span class="sr-only">(current)</span></a>
                 </li>
+                {% else %}
+                <li>
+                    <a href="/">首页 <span class="sr-only">(current)</span></a>
+                </li>
+                {% endif %}
                 <li>
                     <a href="#">关注的人</a>
                 </li>
@@ -43,13 +49,28 @@
                 </li>
             </ul>
 
-            <div style="float: right">
-                <form class="navbar-form navbar-left">
+            <div>
+                <form class="navbar-form navbar-left" action="#">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Search">
                     </div>
                     <button type="submit" class="btn btn-primary">搜索</button>
                 </form>
+            </div>
+
+            <div style="float: right;margin-top: 10px">
+                {% if 'uid' in session %}
+                <a class="btn btn-info" href="/blog/content">个人微博</a>
+                <a class="btn btn-success" href="/blog/write">发布微博</a>
+                <a class="btn btn-primary" href="/user/info">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true" style="margin:0px">.{{ session.username }}
+                    </span>
+                </a>
+                <a class="btn btn-warning" href="/user/logout">退出</a>
+                {% else %}
+                <a class="btn btn-success" href="/user/login">登录</a>
+                <a class="btn btn-primary" href="/user/register">注册</a>
+                {% endif %}
             </div>
         </div>
     </div>
