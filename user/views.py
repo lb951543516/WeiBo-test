@@ -1,8 +1,9 @@
 from flask import Blueprint, request, redirect, session, render_template
+import datetime
 
 from user.models import Users
 from libs.orm import db
-from libs.utils import make_password, check_password
+from libs.utils import make_password, check_password, save_avatar, login_required
 from sqlalchemy.orm.exc import NoResultFound
 
 # 定义 blueprint 对象                    路由前缀
@@ -25,10 +26,8 @@ def register():
         tel = request.form.get('tel')
         birthday = request.form.get('birthday')
         gender = request.form.get('gender')
-        if gender == '男':
-            gender = 'male'
-        else:
-            gender = 'female'
+        now = datetime.datetime.now()
+        avatar = request.files.get('avatar')
 
         try:
             Users.query.filter_by(username=username).one()
@@ -38,7 +37,11 @@ def register():
                 return render_template('register.html', error=1)
             else:
                 u1 = Users(username=username, password=make_password(password),
-                           tel=tel, birthday=birthday, gender=gender)
+                           tel=tel, birthday=birthday, gender=gender, created=now)
+
+                if avatar:
+                    u1.avatar = save_avatar(avatar)
+
                 db.session.add(u1)
                 db.session.commit()
 
@@ -89,6 +92,7 @@ def update():
 
 
 @user_bp.route('/user/info')
+@login_required
 def info():
     uid = session.get('uid')
     user_info = Users.query.get(uid)
@@ -98,6 +102,5 @@ def info():
 @user_bp.route('/user/logout')
 def logout():
     # 删除session数据
-    session.pop('uid')
-    session.pop('username')
+    session.clear()
     return redirect('/')
