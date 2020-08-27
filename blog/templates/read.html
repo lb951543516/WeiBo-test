@@ -4,6 +4,15 @@
 <h1 align="center">微博内容</h1>
 <hr>
 
+
+{% if error == 1 %}
+<div class="alert alert-danger" role="alert" style="text-align: center">评论不能为空！</div>
+{% endif %}
+
+{% if error == 2 %}
+<div class="alert alert-danger" role="alert" style="text-align: center">回复不能为空！</div>
+{% endif %}
+
 <!--展示微博内容-->
 <div class="alert alert-info" role="alert" style="text-align: left">
     <span style="font-size: 40px;color: black"><strong>{{ blog.author.username }}</strong></span>
@@ -25,19 +34,12 @@
 </div>
 
 
-{% if error == 1 %}
-<div class="alert alert-danger" role="alert" style="text-align: center">评论不能为空！</div>
-{% endif %}
 
 <!--写评论-->
 <form class="form-horizontal" action="/blog/write_comment" method="POST" enctype="multipart/form-data">
     <!--    内容-->
     <div class="col-sm-13">
         <textarea name="comment" class="form-control" placeholder="......" rows="3"></textarea>
-    </div>
-
-    <div class="form-group">
-        <div class="col-sm-8"></div>
     </div>
 
     <input type="hidden" name="bid" value="{{blog.id}}">
@@ -52,9 +54,6 @@
 <hr>
 
 
-{% if error == 2 %}
-<div class="alert alert-danger" role="alert" style="text-align: center">回复不能为空！</div>
-{% endif %}
 
 <!--展示评论-->
 {% for item in comment %}

@@ -148,8 +148,12 @@ def write_comment():
     content = request.form.get('comment', '').strip()
     now = datetime.datetime.now()
 
+    # 如果评论是空
     if not content:
-        return render_template('read.html', error=1)
+        bid = int(request.form.get('bid'))
+        blog = Blogs.query.get(bid)
+        comment = Comments.query.filter_by(bid=bid).order_by(Comments.create_time.desc())
+        return render_template('read.html', error=1, blog=blog, comment=comment)
 
     comment = Comments(uid=uid, bid=bid, content=content, create_time=now)
     db.session.add(comment)
@@ -167,8 +171,12 @@ def reply_comment():
     uid = session.get('uid')
     now = datetime.datetime.now()
 
+    # 如果回复是空
     if not content:
-        return render_template('read.html', error=2)
+        bid = int(request.form.get('bid'))
+        blog = Blogs.query.get(bid)
+        comment = Comments.query.filter_by(bid=bid).order_by(Comments.create_time.desc())
+        return render_template('read.html', error=2, blog=blog, comment=comment)
 
     comment = Comments(uid=uid, bid=bid, cid=cid, content=content, create_time=now)
     db.session.add(comment)
