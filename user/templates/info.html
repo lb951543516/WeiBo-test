@@ -4,28 +4,72 @@
 <h1 align="center">个人信息</h1>
 <hr>
 
+<img src="{{user_info.avatar}}" class="img-circle" width="120px">
+<form class="form-horizontal" style="margin-top: 10px">
+    <!--    ID-->
+    <div class="form-group">
+        <label for="userid" class="col-sm-2 col-md-offset-2 control-label">ID</label>
+        <div class="col-sm-4">
+            <input type="text" name="username" class="form-control" id="userid"
+                   placeholder="{{user_info.id}}" disabled>
+        </div>
+    </div>
+    <!--    用户名-->
+    <div class="form-group">
+        <label for="account" class="col-sm-2 col-md-offset-2 control-label">用户名</label>
+        <div class="col-sm-4">
+            <input type="text" name="username" class="form-control" id="account"
+                   placeholder="{{user_info.username}}" disabled>
+        </div>
+    </div>
+
+    <!--    手机-->
+    <div class="form-group">
+        <label for="inputtel" class="col-sm-2  col-md-offset-2 control-label">手机号</label>
+        <div class="col-sm-4">
+            <input type="text" name="tel" class="form-control" id="inputtel"
+                   placeholder="{{user_info.tel}}" disabled>
+        </div>
+    </div>
+
+    <!--    出生日期-->
+    <div class="form-group">
+        <label for="inputbirthday" class="col-sm-2  col-md-offset-2 control-label">出生日期</label>
+        <div class="col-sm-4">
+            <input type="text" name="birthday" class="form-control" id="inputbirthday"
+                   placeholder="{{user_info.birthday}}" disabled>
+        </div>
+    </div>
+
+    <!--    性别-->
+    {% if user_info.gender == 'male' %}
+    <div class="form-group">
+        <label for="inputgender1" class="col-sm-2  col-md-offset-2 control-label">性别</label>
+        <div class="col-sm-4">
+            <input type="text" name="birthday" class="form-control" id="inputgender1"
+                   placeholder="小哥哥" disabled>
+        </div>
+    </div>
+    {% else %}
+    <div class="form-group">
+        <label for="inputgender2" class="col-sm-2  col-md-offset-2 control-label">性别</label>
+        <div class="col-sm-4">
+            <input type="text" name="birthday" class="form-control" id="inputgender2"
+                   placeholder="小姐姐" disabled>
+        </div>
+    </div>
+    {% endif %}
+</form>
+
 <ul style="font-size: 22px;list-style: none;margin: auto">
-    <li><img src="{{user_info.avatar}}" class="img-circle" width="100px"></li>
-    <ul style="font-size: 22px;list-style: none;margin-top: 10px;margin-left: 60px">
-        <li><strong>用户名:</strong>{{user_info.username}}</li>
-        <li><strong>手机号:</strong>{{user_info.tel}}</li>
-        <li><strong>出生日:</strong>{{user_info.birthday}}</li>
-
-        {% if user_info.gender=='male'%}
-        <li><strong>性&nbsp&nbsp&nbsp&nbsp别:</strong>男</li>
-        {% else %}
-        <li><strong>性&nbsp&nbsp&nbsp&nbsp别:</strong>女</li>
-        {% endif %}
-
-        <li style="padding-top: 50px">
-            <a href="/user/update" style="padding-right: 20px">
-                <button type="button" class="btn btn-info">修改个人信息</button>
-            </a>
-            <a href="/blog/">
-                <button type="button" class="btn btn-info">返回</button>
-            </a>
-        </li>
-    </ul>
+    <li style="padding-top: 50px">
+        <a href="/user/update" style="padding-right: 20px;margin-left: 170px">
+            <button type="button" class="btn btn-info">修改个人信息</button>
+        </a>
+        <a href="/blog/">
+            <button type="button" class="btn btn-info">返回</button>
+        </a>
+    </li>
 </ul>
 
 {% endblock %}
