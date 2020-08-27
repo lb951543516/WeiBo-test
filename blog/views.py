@@ -12,6 +12,7 @@ from blog.models import Comments
 from libs.orm import db
 from libs.utils import login_required
 
+# 定义蓝图
 blog_bp = Blueprint('blog', __name__, url_prefix='/blog')
 # blog_bp.template_folder = f'{base_dir}/blog/templates'
 blog_bp.template_folder = './templates'
@@ -184,6 +185,7 @@ def reply_comment():
     return redirect(f'/blog/read?bid={bid}')
 
 
+# 删除评论
 @blog_bp.route('/delete_comment')
 @login_required
 def delete_comment():

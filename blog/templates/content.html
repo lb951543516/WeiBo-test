@@ -4,16 +4,18 @@
 <h1 align="center">个人微博</h1>
 <hr>
 {% for item in blog %}
-<div class="alert alert-info" role="alert" style="text-align: left">
-    <!--实现换行-->
-    <span style="font-size: 20px;color: black">{{ item.content | replace('\n', '<br>') | safe }} </span>
-    <br><br><span>{{ item.update_time }}</span>
-    <hr style="margin-top: 2px;margin-bottom: 8px">
-    <a href="/blog/update_wb?bid={{item.id}}" class="alert-link">修改内容</a>
-    &nbsp;&nbsp;&nbsp;
-    <a href="/blog/delete?bid={{item.id}}" class="alert-link">删除微博</a>
-    &nbsp;&nbsp;&nbsp;
-</div>
+<a href="/blog/read?bid={{item.id}}">
+    <div class="alert alert-info" role="alert" style="text-align: left">
+        <!--实现换行-->
+        <span style="font-size: 20px;color: black">{{ item.content | replace('\n', '<br>') | safe }} </span>
+        <br><br><span>{{ item.update_time }}</span>
+        <hr style="margin-top: 2px;margin-bottom: 8px">
+        <a href="/blog/update_wb?bid={{item.id}}" class="alert-link">修改内容</a>
+        &nbsp;&nbsp;&nbsp;
+        <a href="/blog/delete?bid={{item.id}}" class="alert-link">删除微博</a>
+        &nbsp;&nbsp;&nbsp;
+    </div>
+</a>
 {% endfor %}
 
 
