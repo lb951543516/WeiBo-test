@@ -4,43 +4,95 @@
 <h1 align="center">微博内容</h1>
 <hr>
 
-<div style="font-size: 20px">
-    <div style="padding-bottom: 10px">
-        <strong>作者：</strong>{{blog.author.username}}
-    </div>
+<!--展示微博内容-->
+<div class="alert alert-info" role="alert" style="text-align: left">
+    <span style="font-size: 40px;color: black"><strong>{{ blog.author.username }}</strong></span>
+    &nbsp&nbsp&nbsp&nbsp
+    <span style="color: black">{{ blog.update_time }}</span>
 
-    <div style="padding-bottom: 10px">
-        <strong>内容：</strong>{{blog.content}}
-    </div>
+    <hr style="margin-bottom: 8px;margin-top: 8px">
+    <!--实现换行-->
+    <span style="font-size: 20px;color: black">{{ blog.content | replace('\n', '<br>') | safe }} </span>
 
-    <div style="padding-bottom: 50px">
-        <strong>日期：</strong>{{blog.update_time}}
-    </div>
-
+    <ul style="font-size: 15px;list-style: none">
+        {% if session.get('uid') == blog.uid %}
+        <li style="margin-left: -40px;margin-top: 8px">
+            <a href="/blog/update_wb?id={{blog.id}}" class="alert-link" style="padding-right: 10px">修改微博</a>
+            <a href="/blog/delete?id={{blog.id}}" class="alert-link" style="padding-right: 10px">删除微博</a>
+        </li>
+        {% endif %}
+    </ul>
 </div>
 
-<ul style="text-align: center;font-size: 22px;padding-bottom: 50px;list-style: none">
+
+{% if error == 1 %}
+<div class="alert alert-danger" role="alert" style="text-align: center">评论不能为空！</div>
+{% endif %}
+
+<!--写评论-->
+<form class="form-horizontal" action="/blog/write_comment" method="POST" enctype="multipart/form-data">
+    <!--    内容-->
+    <div class="col-sm-13">
+        <textarea name="comment" class="form-control" placeholder="......" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-8"></div>
+    </div>
+
+    <input type="hidden" name="bid" value="{{blog.id}}">
+
+    <!--    按钮-->
+    <div class="form-group">
+        <div class=" col-sm-8">
+            <button type="submit" class="btn btn-success">评论</button>
+        </div>
+    </div>
+</form>
+<hr>
 
 
-    {% if user_info.username==blog.author.username %}
-    <li style="padding-top: 20px">
-        <a href="/blog/update_wb?id={{bid}}" style="padding-right: 10px">
-            <button type="button" class="btn btn-info">修改微博</button>
-        </a>
-        <a href="/blog/delete?id={{bid}}" style="padding-right: 10px">
-            <button type="button" class="btn btn-info">删除微博</button>
-        </a>
-        <a href="/blog/">
-            <button type="button" class="btn btn-info">返回主页</button>
-        </a>
-    </li>
+{% if error == 2 %}
+<div class="alert alert-danger" role="alert" style="text-align: center">回复不能为空！</div>
+{% endif %}
+
+<!--展示评论-->
+{% for item in comment %}
+<div class="alert alert-info" role="alert" style="text-align: left">
+    <!--    展示评论内容-->
+    {% if item.cid==0 %}
+    <span style="font-size: 15px;color: black"><strong>{{ item.author.username }}</strong>&nbsp说:</span><br><br>
     {% else %}
-    <li style="padding-top: 20px">
-        <a href="/blog">
-            <button type="button" class="btn btn-info">返回主页</button>
-        </a>
-    </li>
-    {% endif %}
+    <span style="font-size: 15px;color: black">
+        <strong>{{ item.author.username }}</strong>&nbsp对&nbsp
+        <strong>{{item.upper.author.username}}</strong>&nbsp说:
+    </span><br><br>
+    {%endif%}
 
-</ul>
+    <span style="color: black">{{ item.content | replace('\n', '<br>') | safe }}</span><br><br>
+    <span style="color: black">{{item.create_time}}</span>&nbsp&nbsp&nbsp&nbsp
+
+    <!--    删除-->
+    {% if item.uid == session.get('uid') %}
+    <a href="/blog/delete_comment?comment_id={{ item.id }}">删除</a>
+    {% endif %}
+    <hr>
+
+    <!--    回复-->
+    <form class="form-horizontal" action="/blog/reply_comment" method="POST" enctype="multipart/form-data">
+        {% if item.content == '当前评论已被删除' %}
+        {% else %}
+        <div class="form-group">
+            <div class="col-sm-12">
+                <input type="text" name="content" class="form-control" placeholder="......">
+                <input type="hidden" name="bid" value="{{blog.id}}">
+                <input type="hidden" name="cid" value="{{item.id}}">
+            </div>
+            <button type="submit" class="btn btn-success" style="margin-left: 15px">回复</button>
+        </div>
+        {% endif %}
+    </form>
+</div>
+{% endfor %}
+
 {% endblock %}

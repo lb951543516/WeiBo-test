@@ -1,5 +1,6 @@
 from flask import Blueprint, request, redirect, session, render_template
 import datetime
+from urllib.parse import unquote
 
 from user.models import Users
 from libs.orm import db
@@ -70,7 +71,8 @@ def login():
         if check_password(password, u1.password) is True:
             session['uid'] = u1.id
             session['username'] = u1.username
-            return redirect('/blog/')
+
+            return redirect('/blog')
         else:
             return render_template('login.html', error=2)
 

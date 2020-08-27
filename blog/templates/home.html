@@ -1,21 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<script src="../../static/jquery-3.5.1/jquery-3.5.1.js"></script>
 <h1 align="center">微博首页</h1>
 <hr>
 
 
 {% for item in blog %}
-<div class="alert alert-info" role="alert" style="text-align: left">
-    <span style="font-size: 22px;color: black">{{ item.author.username }}</span>
-    &nbsp&nbsp&nbsp&nbsp
-    <span style="color: black">{{ item.update_time }}</span>
-    <hr style="margin-bottom: 8px;margin-top: 8px">
-    <!--实现换行-->
-    <a href="/blog/read?id={{item.id}}">
+<a href="/blog/read?bid={{item.id}}">
+    <div class="alert alert-info" role="alert" style="text-align: left">
+        <span style="font-size: 22px;color: black">{{ item.author.username }}</span>
+        &nbsp&nbsp&nbsp&nbsp
+        <span style="color: black">{{ item.update_time }}</span>
+
+        <hr style="margin-bottom: 8px;margin-top: 8px">
+        <!--实现换行-->
         <span style="font-size: 20px;color: black">{{ item.content | replace('\n', '<br>') | safe }} </span>
-    </a>
-</div>
+    </div>
+</a>
 {% endfor %}
 
 
@@ -23,6 +25,7 @@
     <nav aria-label="Page navigation" class="navbar-sta">
         <ul class="pagination">
 
+            <!--前一页-->
             <li>
                 {% if page>1 %}
                 <a href="/blog/?page={{page-1}}" aria-label="Previous">
@@ -35,6 +38,7 @@
                 {%endif%}
             </li>
 
+            <!--页码显示-->
             {% for x in page_range %}
             {% if x==page %}
             <li><a href="/blog/?page={{x}}" style="color: gray">{{x}}</a></li>
@@ -43,6 +47,7 @@
             {% endif %}
             {% endfor %}
 
+            <!--后一页-->
             <li>
                 {% if page < max_pages %}
                 <a href="/blog/?page={{page+1}}" aria-label="Next">
@@ -54,9 +59,7 @@
                 </a>
                 {%endif%}
             </li>
-
         </ul>
     </nav>
 </div>
-
 {% endblock %}

@@ -1,9 +1,14 @@
-from flask import Blueprint, request, redirect, session
+from flask import Blueprint
+from flask import request
+from flask import session
+from flask import redirect
 from flask import render_template
-import datetime, math
+import datetime
+import math
 
 from blog.models import Blogs
-from user.models import Users
+from blog.models import Comments
+
 from libs.orm import db
 from libs.utils import login_required
 
@@ -13,19 +18,16 @@ blog_bp.template_folder = './templates'
 blog_bp.static_folder = './static'
 
 
+# 微博首页
 @blog_bp.route('/')
 def home():
-    # 当前登录用户
-    uid = session.get('uid')
-
-    # 全部微博
+    # ---------------------- 分页
     blog_num = Blogs.query.order_by(Blogs.update_time.desc()).count()
 
-    # 分页
     page = int(request.args.get('page', 1))
-    per_page = 6
+    per_page = 6  # 每页显示6个内容
     offset = per_page * (page - 1)
-    max_pages = math.ceil(blog_num / per_page)
+    max_pages = math.ceil(blog_num / per_page)  # 总页数
 
     if page <= 5:  # 开始页码范围
         if max_pages >= 10:
@@ -73,6 +75,7 @@ def content():
     return render_template('content.html', blog=blog, page_range=page_range, page=page, max_pages=max_pages)
 
 
+# 发布微博
 @blog_bp.route('/write', methods=("POST", "GET"))
 @login_required
 def write():
@@ -80,49 +83,51 @@ def write():
         return render_template('write.html')
     else:
         uid = session.get('uid')
-        content = request.form.get('content').strip()
+        content1 = request.form.get('content', '').strip()
         now = datetime.datetime.now()
-        if not content:
+        if not content1:
             return render_template('write.html', error=1)
 
-        blog = Blogs(uid=uid, content=content, create_time=now, update_time=now)
+        blog = Blogs(uid=uid, content=content1, create_time=now, update_time=now)
         db.session.add(blog)
         db.session.commit()
 
         return redirect('/blog/content')
 
 
+# 查看微博内容
 @blog_bp.route('/read')
 @login_required
 def read():
-    uid = session.get('uid')
-    user_info = Users.query.get(uid)
-
-    bid = int(request.args.get('id'))
+    bid = int(request.args.get('bid'))
     blog = Blogs.query.get(bid)
 
-    return render_template('read.html', bid=bid, blog=blog, user_info=user_info)
+    comment = Comments.query.filter_by(bid=bid).order_by(Comments.create_time.desc())
+
+    return render_template('read.html', blog=blog, comment=comment)
 
 
+# 删除微博
 @blog_bp.route('/delete')
 @login_required
 def delete():
-    bid = int(request.args.get('id'))
+    bid = int(request.args.get('bid'))
     Blogs.query.filter_by(id=bid).delete()
     db.session.commit()
     return redirect('/blog/content')
 
 
+# 修改微博
 @blog_bp.route('/update_wb', methods=("POST", "GET"))
 @login_required
 def update():
     if request.method == "GET":
-        bid = int(request.args.get('id'))
+        bid = int(request.args.get('bid'))
         blog = Blogs.query.get(bid)
-        return render_template('update_wb.html', blog=blog, bid=bid)
+        return render_template('update_wb.html', blog=blog)
     else:
         bid = int(request.form.get('bid'))
-        content = request.form.get('content').strip()
+        content = request.form.get('content', '').strip()
         now = datetime.datetime.now()
 
         if not content:
@@ -131,3 +136,53 @@ def update():
         Blogs.query.filter_by(id=bid).update({'content': content, 'update_time': now})
         db.session.commit()
         return redirect('/blog/content')
+
+
+# 评论微博
+@blog_bp.route('/write_comment', methods=("POST",))
+@login_required
+def write_comment():
+    '''写评论'''
+    uid = session.get('uid')
+    bid = int(request.form.get('bid'))
+    content = request.form.get('comment', '').strip()
+    now = datetime.datetime.now()
+
+    if not content:
+        return render_template('read.html', error=1)
+
+    comment = Comments(uid=uid, bid=bid, content=content, create_time=now)
+    db.session.add(comment)
+    db.session.commit()
+    return redirect(f'/blog/read?bid={bid}')
+
+
+# 回复评论
+@blog_bp.route('/reply_comment', methods=("POST",))
+@login_required
+def reply_comment():
+    bid = int(request.form.get('bid'))
+    cid = int(request.form.get('cid'))
+    content = request.form.get('content', '').strip()
+    uid = session.get('uid')
+    now = datetime.datetime.now()
+
+    if not content:
+        return render_template('read.html', error=2)
+
+    comment = Comments(uid=uid, bid=bid, cid=cid, content=content, create_time=now)
+    db.session.add(comment)
+    db.session.commit()
+    return redirect(f'/blog/read?bid={bid}')
+
+
+@blog_bp.route('/delete_comment')
+@login_required
+def delete_comment():
+    comment_id = int(request.args.get('comment_id'))
+    cmt = Comments.query.get(comment_id)
+
+    # 修改数据
+    cmt.content = '当前评论已被删除'
+    db.session.commit()
+    return redirect(f'/blog/read?bid={cmt.bid}')

@@ -9,9 +9,9 @@
     <span style="font-size: 20px;color: black">{{ item.content | replace('\n', '<br>') | safe }} </span>
     <br><br><span>{{ item.update_time }}</span>
     <hr style="margin-top: 2px;margin-bottom: 8px">
-    <a href="/blog/update_wb?id={{item.id}}" class="alert-link">修改内容</a>
+    <a href="/blog/update_wb?bid={{item.id}}" class="alert-link">修改内容</a>
     &nbsp;&nbsp;&nbsp;
-    <a href="/blog/delete?id={{item.id}}" class="alert-link">删除微博</a>
+    <a href="/blog/delete?bid={{item.id}}" class="alert-link">删除微博</a>
     &nbsp;&nbsp;&nbsp;
 </div>
 {% endfor %}
@@ -20,7 +20,7 @@
 <div align="center" style="margin-bottom: 30px">
     <nav aria-label="Page navigation" class="navbar-sta">
         <ul class="pagination">
-
+            <!--上一页-->
             <li>
                 {% if page>1 %}
                 <a href="/blog/content?page={{page-1}}" aria-label="Previous">
@@ -33,6 +33,7 @@
                 {%endif%}
             </li>
 
+            <!--页码选择-->
             {% for x in page_range %}
             {% if x==page %}
             <li><a href="/blog/content?page={{x}}" style="color: gray">{{x}}</a></li>
@@ -41,6 +42,7 @@
             {% endif %}
             {% endfor %}
 
+            <!--下一页-->
             <li>
                 {% if page < max_pages %}
                 <a href="/blog/content?page={{page+1}}" aria-label="Next">

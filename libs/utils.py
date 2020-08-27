@@ -1,7 +1,9 @@
 import os
 from functools import wraps
 from hashlib import sha256, md5
-from flask import session,redirect
+from urllib.parse import quote
+
+from flask import session,redirect,request
 
 
 def make_password(password):
@@ -68,7 +70,8 @@ def login_required(view_func):
     def check_session(*args, **kwargs):
         uid = session.get('uid')
         if not uid:
-            return redirect('/')
+            # from_url=quote(request.full_path)
+            return redirect('/user/login')
         else:
             return view_func(*args, **kwargs)
 
