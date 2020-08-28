@@ -40,12 +40,12 @@
         {% if session.uid!=blog.author.id %}
         {% if is_follow == 0 %}
         <span>关注&nbsp</span>
-        <a href="/user/follow?fid={{blog.uid}}&bid={{blog.id}}">
+        <a href="/user/follow?fid={{blog.uid}}&bid={{blog.id}}&pid=0">
             <span class="glyphicon glyphicon-star" aria-hidden="true" style="color:#999999"></span>
         </a>
         {% else %}
          <span>关注&nbsp</span>
-        <a href="/user/follow?fid={{blog.uid}}&bid={{blog.id}}">
+        <a href="/user/follow?fid={{blog.uid}}&bid={{blog.id}}&pid=0">
             <span class="glyphicon glyphicon-star" aria-hidden="true" style="color:gold"></span>
         </a>
         {% endif %}

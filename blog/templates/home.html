@@ -8,7 +8,7 @@
 <!-------------------------------------展示微博----------------------------------------->
 {% for item in blog %}
 <div class="alert alert-info" role="alert" style="text-align: left">
-    <a href="/user/info?uid={{item.author.id}}">
+    <a href="/user/other_info?uid={{item.author.id}}&bid={{item.id}}">
         <span style="font-size: 22px;color: black">{{ item.author.username }}</span>
     </a>
 

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 align="center">粉丝列表</h1>
+<hr>
+
+{% for fans in fans_info %}
+<img src="{{fans.avatar}}" class="img-circle" width="120px">
+<form class="form-horizontal" style="margin-top: 10px">
+    <!--    ID-->
+    <div class="form-group">
+        <label for="userid" class="col-sm-2 col-md-offset-2 control-label">ID</label>
+        <div class="col-sm-4">
+            <input type="text" name="username" class="form-control" id="userid"
+                   placeholder="{{fans.id}}" disabled>
+        </div>
+    </div>
+
+    <!--    用户名-->
+    <div class="form-group">
+        <label for="account" class="col-sm-2 col-md-offset-2 control-label">用户名</label>
+        <div class="col-sm-4">
+            <input type="text" name="username" class="form-control" id="account"
+                   placeholder="{{fans.username}}" disabled>
+        </div>
+    </div>
+
+    <!--    关注 / 粉丝-->
+    <div class="form-group">
+        <label for="account2" class="col-sm-2 col-md-offset-2 control-label">关注&nbsp/&nbsp粉丝</label>
+        <div class="col-sm-4">
+            <input type="text" name="follow" class="form-control" id="account2"
+                   placeholder="{{fans.n_follow}} / {{fans.n_fan}}" disabled>
+        </div>
+    </div>
+
+    <!--    出生日期-->
+    <div class="form-group">
+        <label for="inputbirthday" class="col-sm-2  col-md-offset-2 control-label">出生日期</label>
+        <div class="col-sm-4">
+            <input type="text" name="birthday" class="form-control" id="inputbirthday"
+                   placeholder="{{fans.birthday}}" disabled>
+        </div>
+    </div>
+
+    <!--    性别-->
+    {% if fans.gender == 'male' %}
+    <div class="form-group">
+        <label for="inputgender1" class="col-sm-2  col-md-offset-2 control-label">性别</label>
+        <div class="col-sm-4">
+            <input type="text" name="birthday" class="form-control" id="inputgender1"
+                   placeholder="小哥哥" disabled>
+        </div>
+    </div>
+    {% else %}
+    <div class="form-group">
+        <label for="inputgender2" class="col-sm-2  col-md-offset-2 control-label">性别</label>
+        <div class="col-sm-4">
+            <input type="text" name="birthday" class="form-control" id="inputgender2"
+                   placeholder="小姐姐" disabled>
+        </div>
+    </div>
+    {% endif %}
+</form>
+<hr>
+{%endfor%}
+{% endblock %}
