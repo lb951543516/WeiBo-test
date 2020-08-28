@@ -205,8 +205,12 @@ def show_fans():
 @login_required
 def show_follows():
     uid = session.get('uid')
+
+    # 取出Follows表里的uid用户 全部关注的人的id ，结果是一个迭代器，里面的元素是元组类型
     follows = Follows.query.filter_by(uid=uid).values('fid')
+    #                遍历元组 (fid,) 可以获取到里面的值
     follows_fid_list = [fid for (fid,) in follows]
 
+    # in_ 方法 ，与filter_by,order_by 类似
     follows_info = Users.query.filter(Users.id.in_(follows_fid_list))
     return render_template('your_follows.html', follows_info=follows_info)
