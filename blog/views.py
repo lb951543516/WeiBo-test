@@ -124,7 +124,7 @@ def read():
     else:
         is_follow = 1
 
-    return render_template('read.html', blog=blog, comment=comment, is_thumb=is_thumb,is_follow=is_follow)
+    return render_template('read.html', blog=blog, comment=comment, is_thumb=is_thumb, is_follow=is_follow)
 
 
 # 删除微博
@@ -147,12 +147,12 @@ def update():
         return render_template('update_wb.html', blog=blog)
     else:
         bid = int(request.form.get('bid'))
-        blog=Blogs.query.get(bid)
+        blog = Blogs.query.get(bid)
         content = request.form.get('content', '').strip()
         now = datetime.datetime.now()
 
         if not content:
-            return render_template('update_wb.html', error=1,blog=blog)
+            return render_template('update_wb.html', error=1, blog=blog)
 
         Blogs.query.filter_by(id=bid).update({'content': content, 'update_time': now})
         db.session.commit()
@@ -239,3 +239,15 @@ def thumb():
         db.session.commit()
 
     return redirect(f'/blog/read?bid={bid}')
+
+
+# 查看点赞的微博
+@blog_bp.route('/thumb_blog')
+@login_required
+def show_thumb_blog():
+    uid = session.get('uid')
+    bids = Thumbs.query.filter_by(uid=uid).values('bid')
+    blogs_bid_list = [bid for (bid,) in bids]
+
+    blog = Blogs.query.filter(Blogs.id.in_(blogs_bid_list))
+    return render_template('thumb_blog.html', blog=blog)
