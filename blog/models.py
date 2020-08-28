@@ -10,6 +10,7 @@ class Blogs(db.Model):
     content = db.Column(db.Text, nullable=False)
     create_time = db.Column(db.DateTime, nullable=False)
     update_time = db.Column(db.DateTime, nullable=False)
+    n_thumb = db.Column(db.Integer, nullable=False, default=0)
 
     # 获取用户信息 blog.author
     @property
@@ -42,3 +43,12 @@ class Comments(db.Model):
             return None
         else:
             return Comments.query.get(self.cid)
+
+
+# 点赞模型
+class Thumbs(db.Model):
+    __tablename__ = 'thumb'
+
+    # 联合主键
+    uid = db.Column(db.Integer, primary_key=True)
+    bid = db.Column(db.Integer, primary_key=True)

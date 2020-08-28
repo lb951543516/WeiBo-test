@@ -8,9 +8,12 @@ import math
 
 from blog.models import Blogs
 from blog.models import Comments
+from blog.models import Thumbs
 
 from libs.orm import db
 from libs.utils import login_required
+
+from sqlalchemy.exc import IntegrityError
 
 # 定义蓝图
 blog_bp = Blueprint('blog', __name__, url_prefix='/blog')
@@ -100,12 +103,20 @@ def write():
 @blog_bp.route('/read')
 @login_required
 def read():
+    uid = session.get('uid')
     bid = int(request.args.get('bid'))
     blog = Blogs.query.get(bid)
 
     comment = Comments.query.filter_by(bid=bid).order_by(Comments.create_time.desc())
 
-    return render_template('read.html', blog=blog, comment=comment)
+    # 判断是否点过赞
+    thumb_num = Thumbs.query.filter_by(uid=uid, bid=bid).count()
+    if thumb_num == 0:
+        is_thumb = 0
+    else:
+        is_thumb = 1
+
+    return render_template('read.html', blog=blog, comment=comment, is_thumb=is_thumb)
 
 
 # 删除微博
@@ -196,3 +207,26 @@ def delete_comment():
     cmt.content = '当前评论已被删除'
     db.session.commit()
     return redirect(f'/blog/read?bid={cmt.bid}')
+
+
+# 点赞
+@blog_bp.route('/thumb')
+@login_required
+def thumb():
+    bid = int(request.args.get('bid'))
+    uid = session.get('uid')
+
+    thumb = Thumbs(uid=uid, bid=bid)
+    try:
+        # 点赞
+        Blogs.query.filter_by(id=bid).update({'n_thumb': Blogs.n_thumb + 1})
+        db.session.add(thumb)
+        db.session.commit()
+    except IntegrityError:
+        # 取消点赞
+        db.session.rollback()
+        Blogs.query.filter_by(id=bid).update({'n_thumb': Blogs.n_thumb - 1})
+        Thumbs.query.filter_by(uid=uid, bid=bid).delete()
+        db.session.commit()
+
+    return redirect(f'/blog/read?bid={bid}')

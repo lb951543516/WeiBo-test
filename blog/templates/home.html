@@ -5,22 +5,29 @@
 <h1 align="center">微博首页</h1>
 <hr>
 
-
+<!-------------------------------------展示微博----------------------------------------->
 {% for item in blog %}
-<a href="/blog/read?bid={{item.id}}">
-    <div class="alert alert-info" role="alert" style="text-align: left">
+<div class="alert alert-info" role="alert" style="text-align: left">
+    <a href="/user/info?uid={{item.author.id}}">
         <span style="font-size: 22px;color: black">{{ item.author.username }}</span>
-        &nbsp&nbsp&nbsp&nbsp
-        <span style="color: black">{{ item.update_time }}</span>
+    </a>
 
-        <hr style="margin-bottom: 8px;margin-top: 8px">
+    &nbsp&nbsp&nbsp&nbsp
+    <span style="color: black">{{ item.update_time }}</span>
+    &nbsp&nbsp&nbsp
+
+    <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+    <span>&nbsp{{ item.n_thumb }}</span>
+
+    <hr style="margin-bottom: 8px;margin-top: 8px">
+    <a href="/blog/read?bid={{item.id}}">
         <!--实现换行-->
         <span style="font-size: 20px;color: black">{{ item.content | replace('\n', '<br>') | safe }} </span>
-    </div>
-</a>
+    </a>
+</div>
 {% endfor %}
 
-
+<!-------------------------------------页码----------------------------------------->
 <div align="center" style="margin-bottom: 30px">
     <nav aria-label="Page navigation" class="navbar-sta">
         <ul class="pagination">

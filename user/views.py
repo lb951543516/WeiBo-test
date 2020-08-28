@@ -1,11 +1,18 @@
-from flask import Blueprint, request, redirect, session, render_template
+from flask import Blueprint
+from flask import request
+from flask import redirect
+from flask import render_template
+from flask import session
 import datetime
-from urllib.parse import unquote
 
+from urllib.parse import unquote
 from user.models import Users
 from libs.orm import db
+from libs.utils import make_password
+from libs.utils import check_password
+from libs.utils import save_avatar
+from libs.utils import login_required
 
-from libs.utils import make_password, check_password, save_avatar, login_required
 from sqlalchemy.orm.exc import NoResultFound
 
 # 定义 blueprint 对象                    路由前缀
@@ -102,7 +109,7 @@ def update():
 @user_bp.route('/user/info')
 @login_required
 def info():
-    uid = session.get('uid')
+    uid = int(request.args.get('uid'))
     user_info = Users.query.get(uid)
     return render_template('info.html', user_info=user_info)
 

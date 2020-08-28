@@ -13,16 +13,41 @@
 <div class="alert alert-danger" role="alert" style="text-align: center">回复不能为空！</div>
 {% endif %}
 
-<!--展示微博内容-->
+<!------------------------------------------展示微博内容-------------------------------------------->
 <div class="alert alert-info" role="alert" style="text-align: left">
     <span style="font-size: 40px;color: black"><strong>{{ blog.author.username }}</strong></span>
     &nbsp&nbsp&nbsp&nbsp
     <span style="color: black">{{ blog.update_time }}</span>
+    &nbsp&nbsp&nbsp
+
+    <!---------------------------------------点赞 按钮-------------------------------------------->
+    <span>
+        {% if is_thumb ==0 %}
+        <a href="/blog/thumb?bid={{blog.id}}">
+        <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color:#999999"></span>
+        </a>
+        <span>&nbsp{{blog.n_thumb}}</span>
+        {% else %}
+        <a href="/blog/thumb?bid={{blog.id}}">
+        <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color:#ff0000"></span>
+        </a>
+        <span>&nbsp{{ blog.n_thumb }}</span>
+        {% endif %}
+    </span>
+    <!---------------------------------------关注 按钮-------------------------------------------->
+    <span style="float:right;clear: both">
+        <span>关注&nbsp</span>
+        <a href="#">
+            <span class="glyphicon glyphicon-star" aria-hidden="true" style="color:#999999"></span>
+        </a>
+    </span>
+
 
     <hr style="margin-bottom: 8px;margin-top: 8px">
-    <!--实现换行-->
+    <!--微博内容实现换行-->
     <span style="font-size: 20px;color: black">{{ blog.content | replace('\n', '<br>') | safe }} </span>
 
+    <!--如果登录用户id和该文本的作者id相同，提供 删除和修改功能-->
     <ul style="font-size: 15px;list-style: none">
         {% if session.get('uid') == blog.uid %}
         <li style="margin-left: -40px;margin-top: 8px">
@@ -34,7 +59,7 @@
 </div>
 
 
-<!--写评论-->
+<!--------------------------------------------写评论-------------------------------------------->
 <form class="form-horizontal" action="/blog/write_comment" method="POST" enctype="multipart/form-data">
     <!--    内容-->
     <div class="col-sm-13">
@@ -53,10 +78,10 @@
 <hr>
 
 
-<!--展示评论-->
+<!--------------------------------------------展示评论-------------------------------------------->
 {% for item in comment %}
 <div class="alert alert-info" role="alert" style="text-align: left">
-    <!--    展示评论内容-->
+    <!----------------------------------------展示评论内容-------------------------------------------->
     {% if item.cid==0 %}
     <span style="font-size: 15px;color: black"><strong>{{ item.author.username }}</strong>&nbsp说:</span><br><br>
     {% else %}
@@ -69,14 +94,18 @@
     <span style="color: black">{{ item.content | replace('\n', '<br>') | safe }}</span><br><br>
     <span style="color: black">{{item.create_time}}</span>&nbsp&nbsp&nbsp&nbsp
 
-    <!--    删除-->
+    <!--------------------------------------------删除-------------------------------------------->
+    <!--如果登录用户id和发评论的人的id相同 且评论没有被删除  则给你一个删除按钮-->
     {% if item.uid == session.get('uid') %}
+    {% if item.content != '当前评论已被删除' %}
     <a href="/blog/delete_comment?comment_id={{ item.id }}">删除</a>
+    {% endif %}
     {% endif %}
     <hr>
 
-    <!--    回复-->
+    <!--------------------------------------------回复-------------------------------------------->
     <form class="form-horizontal" action="/blog/reply_comment" method="POST" enctype="multipart/form-data">
+        <!--如果评论已经被删除了，则回复框消失-->
         {% if item.content == '当前评论已被删除' %}
         {% else %}
         <div class="form-group">

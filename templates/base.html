@@ -66,7 +66,7 @@
                 {% if 'uid' in session %}
                 <a class="btn btn-info" href="/blog/content">个人微博</a>
                 <a class="btn btn-success" href="/blog/write">发布微博</a>
-                <a class="btn btn-primary" href="/user/info">
+                <a class="btn btn-primary" href="/user/info?uid={{session.uid}}">
                     <span class="glyphicon glyphicon-user" aria-hidden="true" style="margin:0px">.{{ session.username }}
                     </span>
                 </a>
