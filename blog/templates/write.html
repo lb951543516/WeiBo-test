@@ -4,7 +4,7 @@
 <hr>
 
 {% if error == 1 %}
-    <div class="alert alert-danger" role="alert" style="text-align: center">内容不能为空！</div>
+<div class="alert alert-danger" role="alert" style="text-align: center">内容不能为空！</div>
 {% endif %}
 
 <form class="form-horizontal" action="/blog/write" method="POST" enctype="multipart/form-data">
@@ -23,13 +23,12 @@
 
     <!--    按钮-->
     <div class="form-group">
-        <div class="col-sm-offset-4 col-sm-8">
-            <button type="submit" class="btn btn-success"
-                    style="margin-left: 70px;margin-right: 40px">发布
-            </button>
-            <a href="/blog/content">
-                <button type="button" class="btn btn-success">返回</button>
-            </a>
+        <label class="col-sm-2  col-md-offset-2 control-label"></label>
+        <div class="col-sm-4">
+            <button type="submit" class="btn btn-info">发布</button>
+            &nbsp<a href="/blog/content">
+            <button type="button" class="btn btn-info" style="margin-left: 20px">返回</button>
+        </a>
         </div>
     </div>
 </form>

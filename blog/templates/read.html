@@ -34,12 +34,22 @@
         <span>&nbsp{{ blog.n_thumb }}</span>
         {% endif %}
     </span>
+
     <!---------------------------------------关注 按钮-------------------------------------------->
     <span style="float:right;clear: both">
+        {% if session.uid!=blog.author.id %}
+        {% if is_follow == 0 %}
         <span>关注&nbsp</span>
-        <a href="#">
+        <a href="/user/follow?fid={{blog.uid}}&bid={{blog.id}}">
             <span class="glyphicon glyphicon-star" aria-hidden="true" style="color:#999999"></span>
         </a>
+        {% else %}
+         <span>关注&nbsp</span>
+        <a href="/user/follow?fid={{blog.uid}}&bid={{blog.id}}">
+            <span class="glyphicon glyphicon-star" aria-hidden="true" style="color:gold"></span>
+        </a>
+        {% endif %}
+        {% endif %}
     </span>
 
 

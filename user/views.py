@@ -7,6 +7,7 @@ import datetime
 
 from urllib.parse import unquote
 from user.models import Users
+from user.models import Follows
 from libs.orm import db
 from libs.utils import make_password
 from libs.utils import check_password
@@ -119,3 +120,29 @@ def logout():
     # 删除session数据
     session.clear()
     return redirect('/')
+
+
+@user_bp.route('/user/follow')
+@login_required
+def follow():
+    bid = int(request.args.get('bid'))
+    fid = int(request.args.get('fid'))
+    uid = session.get('uid')
+
+    follow = Follows(uid=uid, fid=fid)
+
+    try:
+        # 关注
+        Users.query.filter_by(id=uid).update({'n_follow': Users.n_follow + 1})
+        Users.query.filter_by(id=fid).update({'n_fan': Users.n_fan + 1})
+        db.session.add(follow)
+        db.session.commit()
+    except Exception:
+        # 取消点赞
+        db.session.rollback()
+        Users.query.filter_by(id=uid).update({'n_follow': Users.n_follow - 1})
+        Users.query.filter_by(id=fid).update({'n_fan': Users.n_fan - 1})
+        Follows.query.filter_by(uid=uid, fid=fid).delete()
+        db.session.commit()
+
+    return redirect(f'/blog/read?bid={bid}')

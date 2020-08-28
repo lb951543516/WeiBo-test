@@ -9,6 +9,7 @@ import math
 from blog.models import Blogs
 from blog.models import Comments
 from blog.models import Thumbs
+from user.models import Follows
 
 from libs.orm import db
 from libs.utils import login_required
@@ -116,7 +117,14 @@ def read():
     else:
         is_thumb = 1
 
-    return render_template('read.html', blog=blog, comment=comment, is_thumb=is_thumb)
+    # 判断是否关注过
+    follow_num = Follows.query.filter_by(uid=uid, fid=blog.author.id).count()
+    if follow_num == 0:
+        is_follow = 0
+    else:
+        is_follow = 1
+
+    return render_template('read.html', blog=blog, comment=comment, is_thumb=is_thumb,is_follow=is_follow)
 
 
 # 删除微博
@@ -139,11 +147,12 @@ def update():
         return render_template('update_wb.html', blog=blog)
     else:
         bid = int(request.form.get('bid'))
+        blog=Blogs.query.get(bid)
         content = request.form.get('content', '').strip()
         now = datetime.datetime.now()
 
         if not content:
-            return render_template('update_wb.html', error=1)
+            return render_template('update_wb.html', error=1,blog=blog)
 
         Blogs.query.filter_by(id=bid).update({'content': content, 'update_time': now})
         db.session.commit()
