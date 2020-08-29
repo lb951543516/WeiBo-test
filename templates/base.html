@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/jQueryWbPl/css/style.css">
+    <link rel="stylesheet" href="../static/jQueryWbPl/css/comment.css">
+
+
     <title>微博基础页面</title>
     <style>
         #foot {
@@ -11,7 +15,7 @@
         }
 
         #top {
-            margin-bottom: 20px;
+            margin: 0px;
         }
     </style>
 </head>
@@ -88,10 +92,10 @@
 <div class="container">
     <div class="row">
         <!-- 内容区 占8格-->
-        <div class="col-md-8">{% block content %}{% endblock %}</div>
+        <div class="">{% block content %}{% endblock %}</div>
 
-        <!-- 边栏区 占4格-->
-        <div class="col-md-4">{% block sidebar %}{% endblock %}</div>
+        <!--        &lt;!&ndash; 边栏区 占4格&ndash;&gt;-->
+        <!--        <div class="col-md-4">{% block sidebar %}{% endblock %}</div>-->
     </div>
 </div>
 
@@ -109,3 +113,5 @@
 
 <script src="../static/jquery-3.5.1/jquery-3.5.1.min.js"></script>
 <script src="../static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/jQueryWbPl/js/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="../static/jQueryWbPl/js/jquery.flexText.js"></script>
