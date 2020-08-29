@@ -60,7 +60,7 @@
     <!--如果登录用户id和该文本的作者id相同，提供 删除和修改功能-->
     <ul style="font-size: 15px;list-style: none">
         {% if session.get('uid') == blog.uid %}
-        <li style="margin-top: 8px">
+        <li style="margin-left: -40px;margin-top: 8px">
             <a href="/blog/update_wb?id={{blog.id}}" class="alert-link" style="padding-right: 10px">修改微博</a>
             <a href="/blog/delete?id={{blog.id}}" class="alert-link" style="padding-right: 10px">删除微博</a>
         </li>
