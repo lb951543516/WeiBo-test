@@ -6,6 +6,36 @@
 <hr>
 
 <!-------------------------------------展示微博----------------------------------------->
+<!-------------------------------------点赞最多微博--------------------------------------------->
+<div class="alert alert-info" role="alert" style="text-align: left">
+    <span class="glyphicon glyphicon-fire " aria-hidden="true" style="float: right;color: red"></span>
+
+    <img src="{{hot_blog.author.avatar}}" class="img-circle"
+         style="width: 60px;height: 60px;margin-right:10px;float: left">
+
+    <div style="height: 15px"></div>
+
+    <span style="clear: both">
+            <a href="/user/other_info?uid={{hot_blog.author.id}}&bid={{hot_blog.id}}">
+                <span style="font-size: 18px;color: black">{{ hot_blog.author.username }}</span>
+            </a>
+            <br>
+            <span style="color: grey">{{ hot_blog.update_time }}</span>
+            &nbsp&nbsp&nbsp
+            <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+            <span>&nbsp({{ hot_blog.n_thumb }})</span>
+        </span>
+    <br>
+    <hr style="margin-bottom: 8px;margin-top: 8px">
+    <a href="/blog/read?bid={{hot_blog.id}}">
+        <!--实现换行-->
+        <span style="font-size: 20px;color: black">{{ hot_blog.content | replace('\n', '<br>') | safe }} </span>
+    </a>
+
+</div>
+
+
+<!-------------------------------------普通微博--------------------------------------------->
 {% for item in blog %}
 <div class="alert alert-info" role="alert" style="text-align: left">
 

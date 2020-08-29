@@ -47,7 +47,10 @@ def home():
     page_range = range(start, end + 1)
     blog = Blogs.query.order_by(Blogs.create_time.desc()).limit(per_page).offset(offset)
 
-    return render_template('home.html', blog=blog, page_range=page_range, page=page, max_pages=max_pages)
+    hot_blog = Blogs.query.order_by(Blogs.n_thumb.desc(),Blogs.update_time.desc()).limit(1).one()
+
+    return render_template('home.html', blog=blog, page_range=page_range, page=page, max_pages=max_pages,
+                           hot_blog=hot_blog)
 
 
 # 个人微博内容
