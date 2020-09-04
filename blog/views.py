@@ -39,10 +39,14 @@ def home():
             start, end = 1, 10
         else:
             start, end = 1, max_pages
+
     elif page > max_pages - 5:  # 结束页码范围
-        start, end = max_pages - 10, max_pages
+        if (max_pages - 9) > 1:
+            start, end = max_pages - 9, max_pages
+        else:
+            start, end = 1, max_pages
     else:  # 中间页面范围
-        start, end = page - 5, page + 5
+        start, end = page - 4, page + 5
 
     page_range = range(start, end + 1)
     blog = Blogs.query.order_by(Blogs.create_time.desc()).limit(per_page).offset(offset)
